@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class GreedyByCoordinates implements ISearch {
 	
 	Graph graph;
-	
+	String path = "";
 	public GreedyByCoordinates(Graph g) {
 		this.graph = g;
 	}
@@ -21,17 +21,18 @@ public class GreedyByCoordinates implements ISearch {
 		
 		while(!queue.isEmpty()){
 			Node temp = queue.get(0);
+			AIDisplay.console.ConsoleWriteLine("Test node is: " + temp.name);
+			path = path + temp.name+ "->";
 			System.out.println("Test node is: " + temp.name);
 			if(temp.name.equals(end)){
+				AIDisplay.console.ConsoleWriteLine(path+"BRAVO!");
 				return true;
 			}
 			temp.tested = true;
 			queue.remove(0);
-			
-			
 			for(Node node : temp.links){
 				if(!node.tested && !queue.contains(node)){
-					Util.sortByDistance(node, temp, queue);					
+					Util.sortByDistance(node, temp, queue);
 				}
 			}
 		}// while

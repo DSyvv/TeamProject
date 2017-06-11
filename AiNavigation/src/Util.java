@@ -14,7 +14,7 @@ public class Util {
 	}
 	public static void setPattern(Graph g,int zoom, int hotizontalPosition){
 		int i=0;
-		int[] coordinats = {50,5,40,20,60,20,30,35,50,35,70,35};
+		int[] coordinats = {50,5,40,20,60,20,30,35,50,35,70,35,20,55,35,55,50,55,65,55,80,55};
 		for(Node node: g.getMap().values()){
 			if(node.x == 0 && node.y == 0){
 				node.x = coordinats[i]*zoom+hotizontalPosition;
@@ -27,10 +27,12 @@ public class Util {
 	public static void pathPrint(String end,Graph graph){
 		Node stopNode = graph.getNode(end);
     	if(stopNode.parent != null){
+    		AIDisplay.console.ConsoleWriteLine(stopNode.name+ "<-");
     		System.out.print(stopNode.name+ "<-");
     		pathPrint(stopNode.parent.name,graph);
     	}
     	else {
+    		AIDisplay.console.ConsoleWriteLine(stopNode.name+"| " + "\n");
     		System.out.print(stopNode.name+"| " + "\n");
     		return;
     	}
@@ -47,12 +49,9 @@ public class Util {
 	
 	public static void sortByDistance(Node start,Node end,ArrayList<Node> list){
 		double distance = calcDistance(start, end);
-		//System.out.println("sort"+start.name +","+end.name);
 		for(int i=0;i<list.size();i++){
-			//System.out.println("out eq ("+start.name+","+list.get(i).name+") "+distance+"<"+calcDistance(end, list.get(i)));
 			
 			if(distance<calcDistance(end, list.get(i))){
-				//System.out.println("eq ("+start.name+","+list.get(i).name+") "+distance+"<"+calcDistance(end, list.get(i)));
 				list.add(i, start);
 				break;
 			}//end if clause
@@ -60,7 +59,6 @@ public class Util {
 		
 		if(!list.contains(start)){
 			list.add(start);
-			//System.out.println("added " + start.name);
 		}
 	}
 	

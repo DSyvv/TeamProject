@@ -23,23 +23,33 @@ public class GPanel extends JPanel{
 		this.revalidate();
 		this.repaint();
 	}
+	 int size;
 	@Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        HashMap<String,Node> map = graph.getMap();
-        
         //set locations
+        boolean flag = false;
         for(Node node : graph.getMap().values()){
-        	Util.setPattern(graph,2,-50);
-        	node.location = new Point(43+5* node.x,52+5*node.y);
-        }//drawLinks
-        AIDisplay.console.ConsoleWriteLine("In GPanel                                           21321312321", 1);
-        int i=2;int x1,x2,y1,y2;
+        	if(node.x!=0 && node.y!=0){
+        		flag = true;
+        		size=55;
+        	}
+        }
+        for(Node node : graph.getMap().values()){
+        	if(!flag){
+        		Util.setPattern(graph,2,-50);
+        		size=5;
+        	}
+        	node.location = new Point(43+size* node.x,52+size*node.y);
+        }
+        //drawLinks
+        //AIDisplay.console.ConsoleWriteLine("In GPanel                                           21321312321", 1);
+        int x1,x2,y1,y2;
         ArrayList<Integer> coordinats = new ArrayList<Integer>();
         for(Node node : graph.getMap().values()){
         	node.tested = true;
     	   for(Link link : node.linkLength){
-    		   if(i%2==0 || link.relatedNode.tested){i++;continue;}
+    		   if(link.relatedNode.tested){continue;}
     		   x1=node.location.x;
     		   x2=link.relatedNode.location.x;
     		   y1=node.location.y;
@@ -55,17 +65,15 @@ public class GPanel extends JPanel{
     		   coordinats.add(x1);
     		   g.drawLine(node.location.x, node.location.y, link.relatedNode.location.x, link.relatedNode.location.y);
     		   g.drawString(link.length+"",m1,m2);
-    		   i++;
     	   }
         }
         //DrawNodes
         for(Node node: graph.getMap().values()){
         	g.setColor(new Color(255, 0, 0));
-        	g.fillOval(25 +5* node.x, 25 +5* node.y, 45, 45);
+        	g.fillOval(25 +size* node.x, 25 +size* node.y, 45, 45);
         	g.setColor(new Color(0,0,0));
-        	g.drawString(node.name, 43+5*node.x, 52+5*node.y);
+        	g.drawString(node.name, 43+size*node.x, 52+size*node.y);
         }
-        
 	}
 }
 /*

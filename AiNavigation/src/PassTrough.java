@@ -1,17 +1,18 @@
 import java.util.ArrayList;
 
-public class CheapestPath implements ISearch{
+public class PassTrough implements ISearch{
 	
 	Graph graph;
-	
-	public CheapestPath(Graph g) {
+	String path;
+	public PassTrough(Graph g) {
 		this.graph = g;
 	}
 	
 	@Override
-	public boolean search(String start, String end) {
+	public String search(String start, String end) {
+		
 		if(!graph.containsNode(start) || !graph.containsNode(end)){
-			return false;
+			return "No Path";
 		}
 		graph.graphReset();
 		Node startNode = graph.getNode(start);
@@ -23,8 +24,7 @@ public class CheapestPath implements ISearch{
 			//Util.printArr(queue);
 			//printInfo(temp);
 			if(temp.name.equals(end)){
-				AIDisplay.console.ConsoleWriteLine("Path is found with price: " + temp.cost);
-				//System.out.println("Path is found with price: " + temp.cost);
+				System.out.println("Path is found with price: " + temp.cost);
 			}
 			
 			queue.remove(0);
@@ -32,16 +32,15 @@ public class CheapestPath implements ISearch{
 			if(!temp.expanded){
 				for(Link link : temp.linkLength){
 					setParent(temp, link);
-					System.out.println(link.price);
 					Util.sortByCost(link.relatedNode, queue);
+					
 				}
 				temp.expanded = true;
 			}// end if
 		}// while
 		
 		if(graph.getNode(end).parent != null){
-			//AIDisplay.console.ConsoleWriteLine("Shortest path length: " + graph.getNode(end).cost);
-			//System.out.println("Shortest path length: " + graph.getNode(end).cost);
+			System.out.println("Shortest path length: " + graph.getNode(end).cost);
 			Util.pathPrint(end, graph);
 			return true;
 		}else{
@@ -57,9 +56,7 @@ public class CheapestPath implements ISearch{
 		}else{
 			parentName = "No parent";
 		}
-		AIDisplay.console.ConsoleWriteLine("Test node is: " + node.name +
-				" , Parent: " + parentName +
-				" , Cost: " + node.cost);
+		
 		System.out.println("Test node is: " + node.name +
 				" , Parent: " + parentName +
 				" , Cost: " + node.cost);

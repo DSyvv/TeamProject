@@ -1,41 +1,24 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class CPanel extends JPanel{
-	protected JLabel message = new JLabel();
-	
-	
-		public void ConsoleWriteLine(String text,int type){
-			message.setFont(new Font("Serif", Font.PLAIN, 16));
-			switch(type){
-				case 0:{
-					message.setForeground(Color.RED);
-					message.setText(text);
-					add(message);
-				}
-				case 1:{
-					message.setForeground(Color.BLACK);
-					message.setText(text);
-					add(message);
-				}
-			}
-		}
-		public void ConsoleWriteLine(String text,int type,int size){
-			message.setFont(new Font("Serif", Font.PLAIN, size));
-			switch(type){
-				case 0:{
-					message.setForeground(Color.RED);
-					message.setText(text);
-					add(message);
-				}
-				case 1:{
-					message.setForeground(Color.BLACK);
-					message.setText(text);
-					add(message);
-				}
-			}
+	public CPanel(){
+		setPreferredSize(new Dimension(300,300));
+		setLayout(new BoxLayout(this, 1));
+	}
+		public void ConsoleWriteLine(String text){
+			
+			add(new JLabel(text));
+			validate();
+			repaint();
 		}
 }

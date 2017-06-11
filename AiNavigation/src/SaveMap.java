@@ -14,24 +14,16 @@ public class SaveMap {
 		    for(String name :g.getMap().keySet()){
 		    	writer.println("#" + name + "#");
 		    }
-		    ArrayList<String> map = new ArrayList<String>();
-		    String input;
+		    int x=2;
 		    for(Node node : g.getMap().values()){
-		    	for(Node relayed : node.links){
-		    		for(Link link: relayed.linkLength){
-		    			if(link.relatedNode == node){
-		    				input = ("$"+node.name +"," +relayed.name+","+(int) link.length+"," +link.type+"$");
-			    			if(!map.contains(input)){
-			    				map.add(input);
-			    			}//end repeat if
-		    			}//end connection if
+		    		node.tested=true;
+		    		for(Link link: node.linkLength){
+		    			if(link.relatedNode.tested){x++;continue;}
+		    			writer.println("$"+node.name +"," +link.relatedNode.name+","+(int) link.length+"," +link.type+"$");
+		    			writer.println("$"+link.relatedNode.name +"," +node.name+","+(int) link.length+"," +link.type+"$");
+			    		x++;	
 		    		}//end link for
-		    	}//end node link list
 		    }//end map values
-		    
-		    for(String n : map){
-		    	writer.println(n);
-		    }
 		    writer.close();
 		} catch (IOException e) {
 			// catch something

@@ -21,5 +21,5 @@ public interface IAddNode {
 	 *i.AddNode(node);
 	 *}
 	 * */
-	public void AddNode(Node node);
+	public void AddNode(Graph node);
 }

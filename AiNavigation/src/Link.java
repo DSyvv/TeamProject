@@ -16,6 +16,7 @@ public class Link {
 		this.length = length;
 		this.type = type;
 		price = setPrice(type,length);
+		//System.out.println(price);
 	}
 	
 	private double setPrice(int type,double len){

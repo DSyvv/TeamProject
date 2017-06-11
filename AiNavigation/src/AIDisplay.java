@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -24,9 +26,9 @@ public class AIDisplay extends JFrame implements IAddNode{
 	
 	public void startSearch(String start,String end,ISearch alg){
 		if(alg.search(start, end)){
-			System.out.println("HAVE A PATH");
+			//console.ConsoleWriteLine("HAVE A PATH");
 		}else{
-			System.out.println("HAVE NOT A PATH");//replace with message box 
+			console.ConsoleWriteLine("HAVE NOT A PATH");//replace with message box 
 		}
 	}
 	
@@ -34,6 +36,8 @@ public class AIDisplay extends JFrame implements IAddNode{
 		
         JPanel navBar = new JPanel();
         JPanel bot = new JPanel();
+        JScrollPane scroll = new JScrollPane();
+        scroll.setPreferredSize(new Dimension (300,400));
         display = new GPanel(graph);
         console = new CPanel();
         
@@ -52,9 +56,10 @@ public class AIDisplay extends JFrame implements IAddNode{
         JButton save = new JButton("Save Map");
         JButton play = new JButton("Play");
         
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(new Dimension(600, 700));
+        setSize(new Dimension(400, 500));
         bot.setPreferredSize(new Dimension(600,100));
         setLayout(new BorderLayout());
         
@@ -72,7 +77,7 @@ public class AIDisplay extends JFrame implements IAddNode{
         bot.add(Box.createHorizontalGlue());
         bot.add(addNodeButton);
         addNodeButton.setHorizontalAlignment(SwingConstants.RIGHT);
-        
+        scroll.add(console);
         add(bot, BorderLayout.PAGE_END);
         add(navBar, BorderLayout.PAGE_START);
         add(display , BorderLayout.CENTER);
@@ -98,8 +103,7 @@ public class AIDisplay extends JFrame implements IAddNode{
         	   @Override
         	   public void actionPerformed(ActionEvent e) {
         	      NewNode node = new NewNode();
-        	      node.createWindow();
-        	      
+        	      node.createWindow(graph);
         	   }
         	  });
         
@@ -108,7 +112,23 @@ public class AIDisplay extends JFrame implements IAddNode{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				switch(algoritms.getSelectedIndex()){
+				case 0 : startSearch(startField.getText(), endField.getText(), new CheapestPath(graph));
+				case 1 : startSearch(startField.getText(), endField.getText(), new GreedyByCoordinates(graph));
+				}
 				
+				System.out.println("b>c"+Math.sqrt(Math.pow(0-3, 2) +
+				Math.pow(1-0, 2)));
+				System.out.println("b>d"+Math.sqrt(Math.pow(0-1, 2) +
+						Math.pow(1-4, 2)));
+				double x = Math.sqrt(Math.pow(0-3, 2) +
+						Math.pow(1-0, 2));
+				double y =Math.sqrt(Math.pow(0-1, 2) +
+						Math.pow(1-4, 2));
+				
+				if(x==y){
+					System.out.println("b>c = b>d");
+				}
 			}
         	
         });
@@ -148,11 +168,10 @@ public class AIDisplay extends JFrame implements IAddNode{
 	}
 
 	@Override
-	public void AddNode(Node node) {
+	public void AddNode(Graph g) {
 		// TODO Auto-generated method stub
-		graph.addNode(node);
-		JOptionPane.showMessageDialog(this, "Node "+node.name+" added.");
-		display.Refresh(graph);
+		this.graph = g;
+		display.Refresh(g);
 	}
 
 }
